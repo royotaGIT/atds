@@ -47,3 +47,118 @@ class Queue(object):
             return True
         else:
             return False
+class Deque(object):
+    def __init__(self):
+        self.dq = []
+    def add_front(self, item):
+        if len(self.dq) == 0:
+            self.dq.append(item)
+        else:
+            self.dq.append(self.dq[len(self.dq) - 1])
+            i = len(self.dq) - 2
+            while(i > 0):
+                self.dq[i] = self.dq[i - 1]
+                i -= 1
+            self.dq[0] = item
+    def add_rear(self, item):
+        self.dq.append(item)
+    def remove_front(self):
+        return self.dq.pop(0)
+    def remove_rear(self):
+        return self.dq.pop()
+    def size(self):
+        return len(self.dq)
+    def is_empty(self):
+        return len(self.dq) == 0
+
+class Node(object):
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+    def get_data(self):
+        return self.data
+    def get_next(self):
+        return self.next
+    def set_data(self, data):
+        self.data = data
+    def set_next(self, next):
+        self.next = next
+
+class UnorderedList(object):
+    def __init__(self):
+        self.head = None
+    def add(self, data):
+        node = Node(data)
+        node.set_next(self.head)
+        self.head = node
+    def remove(self, data):
+        curr = self.head
+        if curr.get_data() == data:
+            self.head = curr.get_next()
+        else:
+            while curr.get_next().get_data() != data:
+                curr = curr.get_next()
+            curr.set_next(curr.get_next().get_next())
+    def search(self, item):
+        curr = self.head
+        while curr != None:
+            if curr.get_data == item:
+                return True
+            curr = curr.get_next()
+        return False
+    def is_empty(self):
+        if self.head == None:
+            return True
+        else:
+            return False
+    def length(self):
+        count = 0
+        curr = self.head
+        while curr != None:
+            curr = curr.get_next()
+            count += 1
+        return count
+    def append(self, item):
+        curr = self.head
+        while curr.get_next() != None:
+            curr = curr.get_next()
+        curr.set_next(Node(item))
+    def index(self, item):
+        i = 0
+        curr = self.head
+        while curr.get_data() != item:
+            curr = curr.get_next()
+            i += 1
+        return i
+    def insert(self, pos, item):
+        if pos == 0:
+            self.add(item)
+        else:
+            curr = self.head
+            i = 1
+            while i < pos:
+                curr = curr.get_next()
+            holder = curr.get_next()
+            curr.set_next(Node(item))
+            curr.get_next().set_next(holder)
+    def pop(self):
+        curr = self.head
+        while curr.get_next().get_next() != None:
+            curr = curr.get_next()
+        holder = curr.get_next()
+        curr.set_next(None)
+        return holder
+    def pop(self, pos = -1):
+        if pos == 0:
+            holder = self.head
+            self.head = holder.get_next()
+            return holder
+    def __repr__(self):
+        result = "UnorderedList["
+        next_node = self.head
+        while next_node != None:
+            result += str(next_node.get_data()) + ","
+            next_node = next_node.get_next()
+        result = result + "]"
+        return result
+
