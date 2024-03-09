@@ -47,6 +47,7 @@ class Queue(object):
             return True
         else:
             return False
+        
 class Deque(object):
     def __init__(self):
         self.dq = []
@@ -95,14 +96,15 @@ class UnorderedList(object):
         curr = self.head
         if curr.get_data() == data:
             self.head = curr.get_next()
-        else:
-            while curr.get_next().get_data() != data:
+        while curr.get_next() != None:
+            if (curr.get_next()).get_data() == data:
+                curr.set_next((curr.get_next()).get_next())
+            else:
                 curr = curr.get_next()
-            curr.set_next(curr.get_next().get_next())
     def search(self, item):
         curr = self.head
         while curr != None:
-            if curr.get_data == item:
+            if curr.get_data() == item:
                 return True
             curr = curr.get_next()
         return False
@@ -138,21 +140,26 @@ class UnorderedList(object):
             i = 1
             while i < pos:
                 curr = curr.get_next()
+                i += 1
             holder = curr.get_next()
             curr.set_next(Node(item))
             curr.get_next().set_next(holder)
-    def pop(self):
-        curr = self.head
-        while curr.get_next().get_next() != None:
-            curr = curr.get_next()
-        holder = curr.get_next()
-        curr.set_next(None)
-        return holder
     def pop(self, pos = -1):
+        prev = self.head
+        if pos == -1:
+            pos = self.length() - 1
         if pos == 0:
-            holder = self.head
-            self.head = holder.get_next()
-            return holder
+            self.head = prev.get_next()
+            return prev
+        else:
+            curr = prev.get_next()
+            i = 1
+            while i < pos:
+                prev = curr
+                curr = curr.get_next()
+                i += 1
+            prev.set_next(curr.get_next())
+            return curr
     def __repr__(self):
         result = "UnorderedList["
         next_node = self.head
@@ -162,3 +169,21 @@ class UnorderedList(object):
         result = result + "]"
         return result
 
+class ULStack(object):
+    def __init__(self):
+        self.stack = UnorderedList()
+    def push(self, item):
+       self.stack.add(item)
+    def pop(self):
+        print(self.stack)
+        popped = self.stack.pop()
+
+        return popped.get_data()
+    def peek(self):
+        holder = self.stack.pop(0)
+        self.stack.add(holder)
+        return holder.get_data()
+    def size(self):
+        return self.stack.length()
+    def is_empty(self):
+        return self.stack.is_empty()
