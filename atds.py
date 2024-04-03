@@ -187,3 +187,30 @@ class ULStack(object):
         return self.stack.length()
     def is_empty(self):
         return self.stack.is_empty()
+
+class HashTable(object):
+    def __init__(self, size):
+        self.size = size
+        self.slots = [None] * self.size
+        self.data = [None] * self.size
+    def hash_fuction(self, key):
+        return key % self.size
+    def put(self, key, value):
+        index = self.hash_function(key)
+        while self.slots[index] != None and self.slots[index] != key:
+            index += 1
+        if self.slots[index] == key:
+            self.data[index] = value
+        else:
+            self.slots[index] = key
+            self.data[index] = value
+    def get(self, key):
+        index = self.hash_function(key)
+        while self.slots[index] != None:
+                if self.slots[index] == key:
+                    return self.data[index]
+                else:
+                    index += 1
+        return None
+            
+    
