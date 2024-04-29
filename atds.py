@@ -213,4 +213,25 @@ class HashTable(object):
                     index += 1
         return None
             
-    
+class BinaryTree(object):
+    def __init__(self, root):
+        self.root = root
+        self.left = None
+        self.right = None
+    def get_root_val(self):
+        return self.root
+    def set_root_val(self, value):
+        self.root = value
+    def get_left_child(self):
+        return self.left
+    def get_right_child(self):
+        return self.right
+    def insert_left(self, value):
+        new_left = BinaryTree(value)
+        new_left.left = self.left
+        self.left = new_left
+    def insert_right(self, value):
+        new_right = BinaryTree(value)
+        new_right.right = self.right
+        self.right = new_right
+        
