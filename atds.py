@@ -193,8 +193,10 @@ class HashTable(object):
         self.size = size
         self.slots = [None] * self.size
         self.data = [None] * self.size
-    def hash_fuction(self, key):
+
+    def hash_function(self, key):
         return key % self.size
+    
     def put(self, key, value):
         index = self.hash_function(key)
         while self.slots[index] != None and self.slots[index] != key:
@@ -204,6 +206,7 @@ class HashTable(object):
         else:
             self.slots[index] = key
             self.data[index] = value
+
     def get(self, key):
         index = self.hash_function(key)
         while self.slots[index] != None:
@@ -212,6 +215,10 @@ class HashTable(object):
                 else:
                     index += 1
         return None
+    
+    def __repr__(self):
+        return "Keys: " + str(self.slots) + "\n" + "Values: " + str(self.data)
+
             
 class BinaryTree(object):
     def __init__(self, root):
